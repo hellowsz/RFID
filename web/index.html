@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="./bootstrap.min.css">
+		<style>
+			h2{text-align:center;margin:50px auto;}
+			table{width:1000px!important;margin:0 auto;}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<h2>仓库物品入库信息</h2>
+			<table id="msg" class="table table-bordered table-hover">
+				<!--<tr class="table-info">
+					<th>卡号</th>
+					<th>时间</th>
+					<th>名称</th>
+					<th>类型</th>
+					<th>颜色</th>
+				</tr>-->
+			</table>
+		</div>
+	</body>
+	<script src="jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		$(function(){
+			setInterval(function(){
+				$.ajax({
+					url:'http://localhost:8080/web/data.json',
+					type:'post',
+					data:{},
+					dataType:'json',
+					success:function(data){
+						$('#msg').empty();
+						console.log(data)
+						$('#msg').append(`<tr class="table-info">
+							<th>卡号</th>
+							<th>时间</th>
+							<th>地址</th>
+							<th>名称</th>
+							<th>类型</th>
+							<th>颜色</th>
+						</tr>`)
+						for(var i=0;i<data.length;i++){
+							$('#msg').append(`<tr>
+							<td>${data[i].cardId}</td>
+							<td>${data[i].startTime}</td>
+							<td>${data[i].ip}</td>
+							<td>${data[i].name}</td>
+							<td>${data[i].type}</td>
+							<td>${data[i].color}</td>
+							</tr>`)
+						}	
+					},error(err){
+						console.error(err);
+					}
+				})
+			},1000)
+		})
+	</script>
+</html>
